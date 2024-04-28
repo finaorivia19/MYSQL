@@ -1,7 +1,7 @@
 Join Table & View
 Worksheet 4
 
-Nama	:
+Nama	: Fina Orivia Nurfadillah
 
 
 SOAL 4.1
@@ -31,6 +31,26 @@ INNER JOIN vendor ON pembelian.vendor_id = vendor.id;
 Pesanan	Pelanggan	Produk	Jenis produk	Pesanan items
 id	tanggal	total	nama	kode	nama	nama	qty	harga_jual
 
+SELECT 
+    pesanan.id AS id_pesanan,
+    pesanan.tanggal,
+    pesanan.total,
+    pelanggan.nama AS nama_pelanggan,
+    produk.kode,
+    produk.nama AS nama_produk,
+    jenis_produk.nama AS jenis_produk,
+    pesanan_items.qty,
+    pesanan_items.harga_jual
+FROM 
+    pesanan
+JOIN 
+    pelanggan ON pesanan.id_pelanggan = pelanggan.id
+JOIN 
+    pesanan_items ON pesanan.id = pesanan_items.id_pesanan
+JOIN 
+    produk ON pesanan_items.id_produk = produk.id
+JOIN 
+    jenis_produk ON produk.id_jenis = jenis_produk.id;
 
 
 SOAL 4.2
@@ -64,20 +84,56 @@ SELECT * FROM pembelian_produk_vendor;
 Pesanan	Pelanggan	Produk	Jenis produk	Pesanan items
 id	tanggal	total	nama	kode	nama	nama	qty	harga_jual
 
-
+CREATE VIEW view_pesanan_detail AS
+SELECT 
+    pesanan.id AS id_pesanan,
+    pesanan.tanggal,
+    pesanan.total,
+    pelanggan.nama AS nama_pelanggan,
+    produk.kode,
+    produk.nama AS nama_produk,
+    jenis_produk.nama AS jenis_produk,
+    pesanan_items.qty,
+    pesanan_items.harga_jual
+FROM 
+    pesanan
+JOIN 
+    pelanggan ON pesanan.id_pelanggan = pelanggan.id
+JOIN 
+    pesanan_items ON pesanan.id = pesanan_items.id_pesanan
+JOIN 
+    produk ON pesanan_items.id_produk = produk.id
+JOIN 
+    jenis_produk ON produk.id_jenis = jenis_produk.id;
+SELECT * FROM view_pesanan_detail;
 Soal 4.3 Transaction
 1.	Buatlah sebuah transaction dengan skenario-skenario statement sebagai berikut:
 ●	Mulai transaction
+start transaction;
 ●	Insert data produk sebanyak 3 record
+MariaDB [dbpos_sib6]> insert into kartu (nama) values
+    -> ('classis'),
+    -> ('gold'),
+    -> ('platinum emas');
+Query OK, 3 rows affected (0.003 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 ●	Update data stok salah satu produk
+MariaDB [dbpos_sib6]> update kartu set nama = 'platinum emas super' where id = 10;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
 ●	Buat savepoint
-●	Hapus salah satu data pembayaran
+MariaDB [dbpos_sib6]> savepoint update_kartu;
+Query OK, 0 rows affected (0.000 sec)
 ●	Kembali ke savepoint
 ●	Update data iuran salah satu kartu
+MariaDB [dbpos_sib6]> update kartu set iuran = '700000' where id = 3;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
 ●	Akhiri transaction dengan commit
+MariaDB [dbpos_sib6]> commit;
+Query OK, 0 rows affected (0.003 sec)
 START TRANSACTION ...
 2.	Berikan penjelasan kapan saat yang tepat menggunakan LOCK TABLES READ
-...
+Penggunaan LOCK TABLES READ dalam SQL digunakan untuk mengunci tabel secara eksplisit agar tidak dapat diubah oleh transaksi lain selama kunci masih berlaku. Ini adalah cara untuk memastikan konsistensi data dalam situasi di mana ingin membaca data tetapi tidak ingin data tersebut berubah oleh transaksi lain selama membacanya.
 3.	Berikan penjelasan kapan saat yang tepat menggunakan LOCK TABLES WRITE
-...
-
+Penggunaan LOCK TABLES WRITE dalam SQL digunakan untuk mengunci tabel secara eksplisit sehingga tidak dapat diakses atau dimodifikasi oleh transaksi lain selama kunci masih berlaku. Ini adalah cara untuk memastikan konsistensi data dalam situasi di mana Anda ingin melakukan perubahan data yang kritis dan memastikan tidak ada transaksi lain yang berinteraksi dengan data yang sama pada saat yang bersamaan.
