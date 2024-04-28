@@ -1,0 +1,83 @@
+Join Table & View
+Worksheet 4
+
+Nama	:
+
+
+SOAL 4.1
+
+Tampilkan data berikut menggunakan join table:
+
+1.	
+Pesanan	Pelanggan	Kartu
+id	tanggal	total	kode	nama	nama kartu	diskon
+
+SELECT ...
+SELECT pesanan.id, pesanan.tanggal, pesanan. total, pelanggan.kode, pelanggan.nama, 
+kartu.nama as nama_kartu, kartu.diskon
+FROM pesanan INNER JOIN pelanggan ON pesanan.pelanggan_id = pelanggan.id
+INNER JOIN kartu ON pelanggan.kartu_id = kartu.id;
+
+2.	
+Pembelian	Produk	Vendor
+id	tanggal	nomor	jumlah	harga	nama	nama	kontak
+	
+	SELECT pembelian.id, pembelian.tanggal, pembelian.nomor, pembelian.jumlah, pembelian.harga,
+produk.nama, vendor.nama, vendor.kontak FROM pembelian INNER JOIN produk 
+ON pembelian.produk_id = produk.id 
+INNER JOIN vendor ON pembelian.vendor_id = vendor.id;
+
+3.	
+Pesanan	Pelanggan	Produk	Jenis produk	Pesanan items
+id	tanggal	total	nama	kode	nama	nama	qty	harga_jual
+
+
+
+SOAL 4.2
+
+Buatlah view berdasarkan query yang menampilkan data berikut ini:
+
+1.	
+Pesanan	Pelanggan	Kartu
+id	tanggal	total	kode	nama	nama kartu	diskon
+
+CREATE VIEW ...
+
+CREATE VIEW pesanan_pelanggan_kartu
+AS SELECT pesanan.id, pesanan.tanggal, pesanan. total, pelanggan.kode, pelanggan.nama, 
+kartu.nama as nama_kartu, kartu.diskon
+FROM pesanan INNER JOIN pelanggan ON pesanan.pelanggan_id = pelanggan.id
+INNER JOIN kartu ON pelanggan.kartu_id = kartu.id;
+
+2.	
+Pembelian	Produk	Vendor
+id	tanggal	nomor	jumlah	harga	nama	nama	Kontak
+	SELECT * FROM vendor;
+CREATE VIEW pembelian_produk_vendor 
+AS SELECT p.id, p.tanggal, p.nomor, p.jumlah, p.harga,
+pr.nama, v.nama as nama_vendor, v.kontak FROM pembelian p INNER JOIN produk pr
+ON p.produk_id = pr.id 
+INNER JOIN vendor v ON p.vendor_id = v.id;
+SELECT * FROM pembelian_produk_vendor;
+	
+3.	
+Pesanan	Pelanggan	Produk	Jenis produk	Pesanan items
+id	tanggal	total	nama	kode	nama	nama	qty	harga_jual
+
+
+Soal 4.3 Transaction
+1.	Buatlah sebuah transaction dengan skenario-skenario statement sebagai berikut:
+●	Mulai transaction
+●	Insert data produk sebanyak 3 record
+●	Update data stok salah satu produk
+●	Buat savepoint
+●	Hapus salah satu data pembayaran
+●	Kembali ke savepoint
+●	Update data iuran salah satu kartu
+●	Akhiri transaction dengan commit
+START TRANSACTION ...
+2.	Berikan penjelasan kapan saat yang tepat menggunakan LOCK TABLES READ
+...
+3.	Berikan penjelasan kapan saat yang tepat menggunakan LOCK TABLES WRITE
+...
+
